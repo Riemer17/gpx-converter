@@ -10,8 +10,7 @@ import numpy as np
 
 @pytest.fixture
 def converter():
-    return Converter(input_file='examples/test_data/test1.gpx')
-
+    return Converter(input_file='examples/test_data/test2.gpx')
 
 def test_gpx_to_dataframe(converter):
     result = converter.gpx_to_dataframe()
@@ -32,6 +31,30 @@ def test_gpx_to_csv(converter):
 
 def test_gpx_to_json(converter):
     result = converter.gpx_to_json(output_file='examples/test_data/converted.json')
+    assert result is not None
+
+def test_gpx_to_excel(converter):
+    result = converter.gpx_to_excel(output_file='examples/test_data/converted.xlsx')
+    assert result is not None
+
+
+def test_dataframe_to_gpx(converter):
+    df = converter.gpx_to_dataframe()
+    result = converter.dataframe_to_gpx(input_df=df, output_file='examples/test_data/converted_from_dataframe.gpx')
+    assert result is not None
+
+def test_csv_to_gpx(converter):
+    result = Converter(input_file="examples/test_data/converted.csv").csv_to_gpx(output_file='examples/test_data/converted_from_csv.gpx')
+    assert result is not None
+
+
+def test_json_to_gpx(converter):
+    result = Converter(input_file="examples/test_data/converted.json").json_to_gpx(output_file='examples/test_data/converted_from_json.gpx')
+    assert result is not None
+
+
+def test_excel_to_gpx(converter):
+    result = Converter(input_file="examples/test_data/converted.xlsx").excel_to_gpx(output_file='examples/test_data/converted_from_excel.gpx')
     assert result is not None
 
 
