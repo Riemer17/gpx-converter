@@ -156,12 +156,14 @@ class Converter(object):
         return True
 
     @staticmethod
-    def dataframe_to_gpx(input_df, lats_colname='latitude', longs_colname='longitude', output_file=None):
+    def dataframe_to_gpx(input_df, lats_colname='latitude', longs_colname='longitude', times_colname="time", alts_colname="altitude", output_file=None):
         """
         convert pandas dataframe to gpx
         input_df: pandas dataframe
         lats_colname: name of the latitudes column
         longs_colname: name of the longitudes column
+        times_colname: name of the times column
+        alts_colname: name of the altitudes column
         output_file: path of the output file
         """
         if not output_file:
@@ -185,7 +187,9 @@ class Converter(object):
         # Create points:
         for idx in input_df.index:
             gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(input_df.loc[idx, lats_colname],
-                                                              input_df.loc[idx, longs_colname]))
+                                                              input_df.loc[idx, longs_colname],
+                                                              time=input_df.loc[idx, times_colname],
+                                                              elevation=input_df.loc[idx, alts_colname]))
 
         with open(output_file, 'w') as f:
             f.write(gpx.to_xml())
